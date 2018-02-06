@@ -42,7 +42,7 @@ export class GeolocationService {
 	 * @param {PositionOptions} positionOptions
 	 * @returns {Observable<any>}
 	 */
-	getCurrentPosition(positionOptions: PositionOptions): Observable<PositionResult> {
+	getCurrentPosition(positionOptions?: PositionOptions): Observable<PositionResult> {
 		return new Observable<PositionResult>((subscriber: Subscriber<PositionResult>) => {
 			navigator.geolocation.getCurrentPosition((...args: any[]) => {
 				const position: Position = args[0],
@@ -71,7 +71,7 @@ export class GeolocationService {
 	 * @param {PositionOptions} positionOptions
 	 * @returns {Observable<any>}
 	 */
-	watchPosition(positionOptions: PositionOptions): Observable<PositionResult> {
+	watchPosition(positionOptions?: PositionOptions): Observable<PositionResult> {
 		return new Observable<PositionResult>((subscriber: Subscriber<PositionResult>) => {
 			const watchId: number = navigator.geolocation.watchPosition((...args: any[]) => {
 				const position: Position = args[0],

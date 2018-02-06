@@ -7,7 +7,7 @@
 
 import { Injectable } from '@angular/core';
 
-export interface Location {
+export interface LngLat {
 	lng: number,
 	lat: number
 }
@@ -29,7 +29,7 @@ export class TransformService {
 		return lng < 72.004 || lng > 137.8347 || lat < 0.8293 || lat > 55.8271;
 	}
 
-	private transform(x: number, y: number): Location {
+	private transform(x: number, y: number): LngLat {
 		const xy = x * y,
 			absX = Math.sqrt(Math.abs(x)),
 			xPi = x * Math.PI,
@@ -48,7 +48,7 @@ export class TransformService {
 		return {lat: lat, lng: lng}
 	}
 
-	private delta(lng: number, lat: number): Location {
+	private delta(lng: number, lat: number): LngLat {
 		const ee = 0.00669342162296594323,
 			d = this.transform(lng - 105.0, lat - 35.0),
 			radLat = lat / 180.0 * Math.PI;
@@ -64,9 +64,9 @@ export class TransformService {
 	 * 地理坐标(WGS-84)转火星坐标(GCJ-02)
 	 * @param {number} wgsLng 经度
 	 * @param {number} wgsLat 纬度
-	 * @returns {Location}
+	 * @returns {LngLat}
 	 */
-	wgs2gcj(wgsLng: number, wgsLat: number): Location {
+	wgs2gcj(wgsLng: number, wgsLat: number): LngLat {
 		if (this.outOfChina(wgsLng, wgsLat)) {
 			return {lng: wgsLng, lat: wgsLat};
 		}
@@ -78,9 +78,9 @@ export class TransformService {
 	 * 火星坐标(GCJ-02)转地理坐标(WGS-84)
 	 * @param {number} gcjLng 经度
 	 * @param {number} gcjLat 纬度
-	 * @returns {Location}
+	 * @returns {LngLat}
 	 */
-	gcj2wgs(gcjLng: number, gcjLat: number): Location {
+	gcj2wgs(gcjLng: number, gcjLat: number): LngLat {
 		if (this.outOfChina(gcjLng, gcjLat)) {
 			return {lng: gcjLng, lat: gcjLat};
 		}

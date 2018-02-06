@@ -95,9 +95,9 @@
 
 #### Method
 
-- `getCurrentPosition(positionOptions: PositionOptions): Observable<PositionResult>` - 获取当前位置。`positionOptions` - 参考W3C标准中的PositionOptions对象
+- `getCurrentPosition(positionOptions?: PositionOptions): Observable<PositionResult>` - 获取当前位置。`positionOptions` - 参考W3C标准中的PositionOptions对象
 
-- `watchPosition(positionOptions: PositionOptions): Observable<PositionResult>` - 持续追踪位置变更。`positionOptions` - 参考W3C标准中的PositionOptions对象
+- `watchPosition(positionOptions?: PositionOptions): Observable<PositionResult>` - 持续追踪位置变更。`positionOptions` - 参考W3C标准中的PositionOptions对象
 
 - `clearWatch(watchId: number): void` - 清除位置追踪。`watchId` - 要清除的持续追踪id
 
