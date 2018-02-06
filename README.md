@@ -35,7 +35,7 @@
 
 #### Property
 
-- `amapWebApiKey: string` - 高德地图web服务所需的key
+- `amapWebApiKey: string` - 高德地图web服务所需的key，需到官网申请并设置
 
 #### Method
 
