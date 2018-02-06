@@ -59,7 +59,9 @@
 
 - `timeFormat(value: number): string` - 将秒数格式化成hh:mm:ss。`value` - 秒数
 
-### EventsService 自定义全局事件服务，用来在全应用中通过发布/订阅事件来进行通信
+### EventsService 自定义全局事件服务
+
+在全应用中通过发布/订阅事件来进行不同组件之间的通信
 
 #### Method
 
@@ -81,11 +83,11 @@
 
 - `getMimeType(extension: string): string` - 根据扩展名获取mimeType。`extension` - 文件扩展名
 
-### GeolocationService 兼容W3C标准的定位服务。Extra只能在基于ionic开发的安卓APP中返回且依赖cordova-plugin-baidu-geolocation插件。
+### GeolocationService 兼容W3C标准的定位服务
 
 #### Interface
 
-- `Extra {type: number, gpsAccuracyStatus: number, addr: string}` - 定位返回的扩展信息，数据结构为{type: number, gpsAccuracyStatus: number, addr: string}
+- `Extra {type: number, gpsAccuracyStatus: number, addr: string}` - 定位返回的扩展信息，只能在基于ionic开发的安卓APP中返回且依赖cordova-plugin-baidu-geolocation插件，数据结构为{type: number, gpsAccuracyStatus: number, addr: string}
 
 - `Location {watchId?: number, position: Position, extra: Extra}` - 定位返回的位置信息，数据结构为{watchId?: number, position: Position, extra: Extra}
 
