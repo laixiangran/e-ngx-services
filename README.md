@@ -107,13 +107,13 @@ xxLng为xx坐标系下的经度，xxLat为xx坐标系下的纬度，均用十进
 
 #### Interface
 
-- `Location {lng: number, lat: number}` - 坐标转换返回的接口对象，数据结构为{lng: number, lat: number}
+- `LngLat {lng: number, lat: number}` - 坐标转换返回的接口对象，数据结构为{lng: number, lat: number}
 
 #### Method
 
-- `wgs2gcj(wgsLng: number, wgsLat: number): Location` - 地理坐标(WGS-84)转火星坐标(GCJ-02)
+- `wgs2gcj(wgsLng: number, wgsLat: number): LngLat` - 地理坐标(WGS-84)转火星坐标(GCJ-02)
 
-- `gcj2wgs(gcjLng: number, gcjLat: number): Location` - 火星坐标(GCJ-02)转地理坐标(WGS-84)
+- `gcj2wgs(gcjLng: number, gcjLat: number): LngLat` - 火星坐标(GCJ-02)转地理坐标(WGS-84)
 
 ## Develop
 
