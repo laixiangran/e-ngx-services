@@ -1,0 +1,63 @@
+{
+	"name": "e-ngx-services",
+	"version": "1.0.0",
+	"description": "基于Angular的一些常用的服务",
+	"keywords": [
+		"angular",
+		"laixiangran"
+	],
+	"homepage": "https://github.com/laixiangran/e-ngx-services#readme",
+	"repository": {
+		"type": "git",
+		"url": "https://github.com/laixiangran/e-ngx-services.git"
+	},
+	"author": {
+		"name": "赖祥燃",
+		"email": "laixiangran@163.com",
+		"bolg": "http://www.cnblogs.com/laixiangran",
+		"homepage": "http://www.laixiangran.cn"
+	},
+	"license": "MIT",
+	"bugs": {
+		"url": "https://github.com/laixiangran/e-ngx-services/issues"
+	},
+	"scripts": {
+		"release": "ngc && npm publish",
+		"start": "ng serve -o",
+		"build-test": "ng build --prod --named-chunks --env=test --base-href /",
+		"build-prod": "ng build --prod --named-chunks --env=prod --base-href /",
+		"lint": "ng lint"
+	},
+	"module": "dist/index.js",
+	"typings": "dist/index.d.ts",
+	"dependencies": {},
+	"devDependencies": {
+		"@angular/animations": "^4.3.0",
+		"@angular/common": "^4.3.0",
+		"@angular/compiler": "^4.3.0",
+		"@angular/core": "^4.3.0",
+		"@angular/forms": "^4.3.0",
+		"@angular/http": "^4.3.0",
+		"@angular/platform-browser": "^4.3.0",
+		"@angular/platform-browser-dynamic": "^4.3.0",
+		"@angular/router": "^4.3.0",
+		"classlist.js": "^1.1.20150312",
+		"core-js": "^2.4.1",
+		"intl": "^1.2.5",
+		"rxjs": "^5.1.0",
+		"ts-md5": "^1.2.0",
+		"web-animations-js": "^2.2.5",
+		"zone.js": "^0.8.4",
+		"@angular/cli": "^1.4.7",
+		"@angular/compiler-cli": "^4.3.0",
+		"@angular/language-service": "^4.3.0",
+		"@angularclass/hmr": "^2.1.3",
+		"@types/node": "^6.0.42",
+		"codelyzer": "^3.0.1",
+		"stylelint": "^7.12.0",
+		"stylelint-scss": "^1.4.4",
+		"ts-node": "^3.0.4",
+		"tslint": "^5.3.2",
+		"typescript": "2.3.4"
+	}
+}
