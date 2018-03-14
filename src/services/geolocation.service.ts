@@ -33,6 +33,7 @@ export interface PositionResult {
 
 @Injectable()
 export class GeolocationService {
+	watchId: number;
 
 	constructor() {
 	}
@@ -72,12 +73,12 @@ export class GeolocationService {
 	 * @returns {Observable<any>}
 	 */
 	watchPosition(positionOptions?: PositionOptions): Observable<PositionResult> {
+		this.clearWatch();
 		return new Observable<PositionResult>((subscriber: Subscriber<PositionResult>) => {
-			const watchId: number = navigator.geolocation.watchPosition((...args: any[]) => {
+			this.watchId = navigator.geolocation.watchPosition((...args: any[]) => {
 				const position: Position = args[0],
 					extra: any = args[1],
 					location: Location = {
-						watchId: watchId,
 						position: position,
 						extra: extra
 					};
@@ -99,9 +100,8 @@ export class GeolocationService {
 
 	/**
 	 * 清除位置追踪
-	 * @param {number} watchId 持续追踪id
 	 */
-	clearWatch(watchId: number): void {
-		navigator.geolocation.clearWatch(watchId);
+	clearWatch(): void {
+		navigator.geolocation.clearWatch(this.watchId);
 	}
 }

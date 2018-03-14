@@ -99,7 +99,7 @@
 
 - `watchPosition(positionOptions?: PositionOptions): Observable<PositionResult>` - 持续追踪位置变更。`positionOptions` - 参考W3C标准中的PositionOptions对象
 
-- `clearWatch(watchId: number): void` - 清除位置追踪。`watchId` - 要清除的持续追踪id
+- `clearWatch(): void` - 清除位置追踪。
 
 ### TransformService 地理坐标(WGS-84)、火星坐标(GCJ-02)互转服务
 
