@@ -10,7 +10,7 @@
 	npm install --save e-ngx-services@latest
 	```
 
-3. Add the ENgxCheckedModule
+3. Add the ENgxServicesModule
 
 	```typescript
 	import {ENgxServicesModule} from "e-ngx-services";
