@@ -1,6 +1,6 @@
 {
 	"name": "e-ngx-services",
-	"version": "1.0.2",
+	"version": "1.1.0",
 	"description": "基于Angular的一些常用的服务",
 	"keywords": [
 		"angular",

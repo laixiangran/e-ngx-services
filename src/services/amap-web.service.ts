@@ -4,52 +4,85 @@
  * 高德地图web服务
  */
 
-import { Injectable } from '@angular/core';
-import { HttpClient } from '@angular/common/http';
-import { Observable } from 'rxjs/Observable';
+import {Injectable} from '@angular/core';
+import {HttpClient} from '@angular/common/http';
+import {Observable} from 'rxjs/Observable';
 
 @Injectable()
 export class AMapWebService {
-	amapWebApiKey: string = '55f909211b9950837fba2c71d0488db9'; // 高德地图web服务所需的key
+	private webAPIKey: string = '55f909211b9950837fba2c71d0488db9'; // 高德Web服务API类型Key
+	private webAPIUrl: string = 'http://restapi.amap.com/v3/';
 
 	constructor(public http: HttpClient) {
 	}
 
 	/**
 	 * 关键字搜索
-	 * @param {string} text 关键字
-	 * @param {string} city 查询城市
+	 * @param {string} params 请求参数
 	 * @returns {Observable<any>}
 	 */
-	poiSearch(text: string, city?: string): Observable<any> {
-		return this.http.get(`http://restapi.amap.com/v3/place/text?keywords=${text}&city=${city}&offset=20&key=${this.amapWebApiKey}&extensions=all`);
+	poiSearch(params: any): Observable<any> {
+		return this.http.get(encodeURI(`${this.webAPIUrl}place/text?${this.foramtParams(params)}`));
 	}
 
 	/**
 	 * 地理编码
-	 * @param {string} address 结构化地址信息:省份＋城市＋区县＋城镇＋乡村＋街道＋门牌号码
-	 * @param {string} city 查询城市
+	 * @param {string} params 请求参数
 	 * @returns {Observable<any>}
 	 */
-	geocode(address: string, city?: string): Observable<any> {
-		return this.http.get(`http://restapi.amap.com/v3/geocode/geo?address=${address}&output=JSON&city=${city}&key=${this.amapWebApiKey}`);
+	geocode(params: any): Observable<any> {
+		return this.http.get(encodeURI(`${this.webAPIUrl}geocode/geo?${this.foramtParams(params)}`));
 	}
 
 	/**
 	 * 逆地理编码
-	 * @param {string} location 经度在前，纬度在后，经纬度间以“,”分割，经纬度小数点后不要超过 6 位
+	 * @param {string} params 请求参数
 	 * @returns {Observable<any>}
 	 */
-	regeocode(location: string): Observable<any> {
-		return this.http.get(`http://restapi.amap.com/v3/geocode/regeo?location=${location}&output=JSON&key=${this.amapWebApiKey}&extensions=all`);
+	regeocode(params: any): Observable<any> {
+		return this.http.get(encodeURI(`${this.webAPIUrl}geocode/regeo?${this.foramtParams(params)}`));
 	}
 
 	/**
 	 * 根据行政区编码获取天气预报信息
-	 * @param {number} adcode 行政区编码
+	 * @param {string} params 请求参数
 	 * @returns {Observable<any>}
 	 */
-	weatherInfo(adcode: number): Observable<any> {
-		return this.http.get(`http://restapi.amap.com/v3/weather/weatherInfo?city=${adcode}&key=${this.amapWebApiKey}&extensions=all`);
+	weatherInfo(params: any): Observable<any> {
+		return this.http.get(encodeURI(`${this.webAPIUrl}weather/weatherInfo?${this.foramtParams(params)}`));
+	}
+
+	/**
+	 * 设置web API key
+	 * @param {string} key
+	 */
+	setWebAPIKey(key: string): void {
+		this.webAPIKey = key;
+	}
+
+	/**
+	 * 获取web APi key
+	 * @returns {string}
+	 */
+	getWebAPIKey(): string {
+		return this.webAPIKey;
+	}
+
+	/**
+	 * 格式化参数，所有参数均使用和号字符(&)进行分隔
+	 * @param params
+	 * @returns {string}
+	 */
+	private foramtParams(params: any): string {
+		const paramArr: string[] = [];
+		for (const p in params) {
+			if (params.hasOwnProperty(p)) {
+				paramArr.push(`${p}=${params[p]}`);
+			}
+		}
+		if (!params.key) {
+			paramArr.push(`key=${this.getWebAPIKey()}`);
+		}
+		return paramArr.join('&');
 	}
 }

@@ -1,3 +1,7 @@
+# 1.1.0 (2018-03-26)
+
+- 优化`AMapWebService`服务
+
 # 1.0.2 (2018-03-14)
 
 - 将watchPosition的watchId内置在服务里，每次调用watchPosition就将上次的监听清除

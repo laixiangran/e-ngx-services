@@ -33,19 +33,19 @@
 
 ### AMapWebService 高德地图web服务
 
-#### Property
-
-- `amapWebApiKey: string` - 高德地图web服务所需的key，需到官网申请并设置
-
 #### Method
 
-- `poiSearch(text: string, city?: string): Observable<any>` - 关键字搜索。`text` - 关键字，`city` - 查询城市，可选输入内容包括：指定城市的中文（如北京）、指定城市的中文全拼（beijing）、citycode（010）、adcode（110000）
+- `setWebAPIKey(key: string): void` - 设置高德Web服务API类型Key，需到[高德开放平台](http://lbs.amap.com/)申请
 
-- `geocode(address: string, city?: string): Observable<any>` - 地理编码。`address` - 结构化地址信息:省份＋城市＋区县＋城镇＋乡村＋街道＋门牌号码，`city` - 查询城市，可选输入内容包括：指定城市的中文（如北京）、指定城市的中文全拼（beijing）、citycode（010）、adcode（110000）
+- `getWebAPIKey(): string` - 获取当前设置的高德Web服务API类型Key
 
-- `regeocode(location: string): Observable<any>` - 逆地理编码。`location` - 经度在前，纬度在后，经纬度间以“,”分割，经纬度小数点后不要超过 6 位
+- `poiSearch(params: any): Observable<any>` - 关键字搜索。[params参数说明](http://lbs.amap.com/api/webservice/guide/api/search#text)
 
-- `weatherInfo(adcode: number): Observable<any>` - 根据行政区编码获取天气预报信息。`adcode` - 行政区编码
+- `geocode(params: any): Observable<any>` - 地理编码。[params参数说明](http://lbs.amap.com/api/webservice/guide/api/georegeo#geo)
+
+- `regeocode(params: any): Observable<any>` - 逆地理编码。[params参数说明](http://lbs.amap.com/api/webservice/guide/api/georegeo#regeo)
+
+- `weatherInfo(params: any): Observable<any>` - 根据行政区编码获取天气预报信息。[params参数说明](http://lbs.amap.com/api/webservice/guide/api/weatherinfo#weatherinfo)
 
 ### DateTimeService 通用日期时间操作服务
 
