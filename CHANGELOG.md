@@ -1,3 +1,7 @@
+# 5.0.0（2018-04-24）
+
+- 升级angular到5.0.0
+
 # 1.0.2 (2018-03-14)
 
 - 将watchPosition的watchId内置在服务里，每次调用watchPosition就将上次的监听清除
