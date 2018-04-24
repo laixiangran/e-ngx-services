@@ -3,6 +3,7 @@
  * homepage：http://www.laixiangran.cn.
  */
 
+import { HttpClientModule } from '@angular/common/http';
 import { NgModule } from '@angular/core';
 import {AMapWebService} from './services/amap-web.service';
 import {DateTimeService} from './services/datetime.service';
@@ -21,6 +22,9 @@ const services: any[] = [
 ];
 
 @NgModule({
+	imports: [
+		HttpClientModule
+	],
 	providers: services
 })
 export class ENgxServicesModule {
