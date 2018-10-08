@@ -9,21 +9,21 @@ import * as echarts from 'echarts';
 
 @Injectable()
 export class EchartsLayerService {
-	mapComponent: any;
-	map: any;
-	echartsIntance: any;
-	echartsContainer: any;
-	option: any;
-	data: any[];
-	zoomStart: any;
-	zoomEnd: any;
-	pan: any;
-	panEnd: any;
+	private mapComponent: any;
+	private map: any;
+	private echartsIntance: any;
+	private echartsContainer: any;
+	private option: any;
+	private data: any[];
+	private zoomStart: any;
+	private zoomEnd: any;
+	private pan: any;
+	private panEnd: any;
 
 	constructor() {
 	}
 
-	init(mapComponent: any, option: any, data: any[]) {
+	init(mapComponent: any, option: any, data: any[]): void {
 		this.mapComponent = mapComponent;
 		this.map = this.mapComponent.map;
 		this.data = data;
@@ -36,7 +36,7 @@ export class EchartsLayerService {
 	 * 设置属性
 	 * @param option
 	 */
-	setOption(option: any) {
+	setOption(option: any): void {
 		this.option = Object.assign(this.option, option);
 		this.addEvent();
 		this.render();
@@ -46,7 +46,7 @@ export class EchartsLayerService {
 	 * 设置数据
 	 * @param {any[]} data
 	 */
-	setData(data: any[]) {
+	setData(data: any[]): void {
 		this.data = data;
 		this.addEvent();
 		this.render();
@@ -55,7 +55,7 @@ export class EchartsLayerService {
 	/**
 	 * 清空 echarts 当前实例，会移除实例中所有的组件和图表并移除地图事件
 	 */
-	clear() {
+	clear(): void {
 		if (this.echartsIntance) {
 			this.removeEvent();
 			this.echartsIntance.clear();
@@ -63,9 +63,9 @@ export class EchartsLayerService {
 	}
 
 	/**
-	 * 销毁 echarts 实例，销毁后实例无法再被使用。
+	 * 销毁 echarts 实例，销毁后实例无法再被使用
 	 */
-	dispose() {
+	dispose(): void {
 		if (this.echartsIntance) {
 			this.removeEvent();
 			this.echartsIntance.dispose();
@@ -123,8 +123,8 @@ export class EchartsLayerService {
 			grid: [],
 			series: []
 		});
-		this.data.forEach((data, index) => {
-			const screenPoint = this.map.toScreen(new this.mapComponent.Point(data[1], data[2], this.map.spatialReference));
+		this.data.forEach((obj, index) => {
+			const screenPoint = this.map.toScreen(new this.mapComponent.Point(obj.x, obj.y, this.map.spatialReference));
 			const coord = [screenPoint.x, screenPoint.y];
 			const idx: string = index + '';
 			const opt = JSON.parse(JSON.stringify(this.option));
@@ -135,7 +135,7 @@ export class EchartsLayerService {
 			option.xAxis.push(Object.assign(xAxis, {
 				id: idx,
 				gridId: idx,
-				name: typeof xAxis.name !== 'undefined' ? data[0] : ''
+				name: typeof xAxis.name !== 'undefined' ? obj.name : ''
 			}));
 			option.yAxis.push(Object.assign(yAxis, {
 				id: idx,
@@ -150,7 +150,7 @@ export class EchartsLayerService {
 				id: idx,
 				xAxisId: idx,
 				yAxisId: idx,
-				data: data.slice(3),
+				data: obj.data,
 				itemStyle: {
 					normal: {
 						color: (params) => {

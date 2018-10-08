@@ -115,6 +115,20 @@ xxLng为xx坐标系下的经度，xxLat为xx坐标系下的纬度，均用十进
 
 - `gcj2wgs(gcjLng: number, gcjLat: number): LngLat` - 火星坐标(GCJ-02)转地理坐标(WGS-84)
 
+### EchartsLayerService arcgis 叠加 echarts（支持柱状图、散点图、线图）
+
+#### Method
+
+- `init(mapComponent: any, option: any, data: any[]): void` - 初始化。mapComponent：e-ngx-esrimap 实例，option：图表属性，同 echarts 配置项，data：对象数组[{name: string, x: number, y: number, data: number[]}]，name：X坐标轴名称，x：地理坐标x，y：地理坐标y，data：数据
+
+- `setOption(option: any): void` - 设置图表属性
+
+- `setData(data: any[]): void` - 设置图表数据
+
+- `clear(): void` - 清空 echarts 当前实例，会移除实例中所有的组件和图表并移除地图事件
+
+- `dispose(): void` - 销毁 echarts 实例，销毁后实例无法再被使用
+
 ## Develop
 
 	```shell
