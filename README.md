@@ -119,13 +119,16 @@ xxLng为xx坐标系下的经度，xxLat为xx坐标系下的纬度，均用十进
 
 #### Method
 
-- `init(mapComponent: any, option: any, data: any[]): void` - 初始化。mapComponent：e-ngx-esrimap 实例，option：图表属性，同 echarts 配置项，data：对象数组[{name: string, x: number, y: number, data: number[]}]，name：X坐标轴名称，x：地理坐标x，y：地理坐标y，data：数据
+- `init(mapComponent: any, option: any, data: any[]): void` - 初始化地图上的图表。
+	1. mapComponent：e-ngx-esrimap 实例，
+	2. option：图表属性，同 echarts 配置项，
+	3. data：对象数组[{name: string, x: number, y: number, color: string[], xData: string[], seriesData: number[]}]，name：X坐标轴名称，x：地理坐标x，y：地理坐标y，color: 颜色值，xData：x轴类目数据，seriesData：数据项
 
 - `setOption(option: any): void` - 设置图表属性
 
 - `setData(data: any[]): void` - 设置图表数据
 
-- `clear(): void` - 清空 echarts 当前实例，会移除实例中所有的组件和图表并移除地图事件
+- `clear(): void` - 清空 echarts 当前实例，会移除实例中所有的组件和图表并移除地图事件，实例可再被使用
 
 - `dispose(): void` - 销毁 echarts 实例，销毁后实例无法再被使用
 

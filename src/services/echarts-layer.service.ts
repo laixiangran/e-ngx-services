@@ -135,7 +135,8 @@ export class EchartsLayerService {
 			option.xAxis.push(Object.assign(xAxis, {
 				id: idx,
 				gridId: idx,
-				name: typeof xAxis.name !== 'undefined' ? obj.name : ''
+				name: typeof xAxis.name !== 'undefined' ? obj.name : '',
+				data: obj.xData
 			}));
 			option.yAxis.push(Object.assign(yAxis, {
 				id: idx,
@@ -150,11 +151,11 @@ export class EchartsLayerService {
 				id: idx,
 				xAxisId: idx,
 				yAxisId: idx,
-				data: obj.data,
+				data: obj.seriesData,
 				itemStyle: {
 					normal: {
 						color: (params) => {
-							const colorList = option.color;
+							const colorList = obj.color;
 							return colorList[params.dataIndex];
 						}
 					}
