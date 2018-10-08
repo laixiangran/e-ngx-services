@@ -11,6 +11,7 @@ import {EventsService} from './services/events.service';
 import {FilePathService} from './services/filepath.service';
 import {GeolocationService} from './services/geolocation.service';
 import {TransformService} from './services/transform.service';
+import {EchartsLayerService} from './services/echarts-layer.service';
 
 const services: any[] = [
 	AMapWebService,
@@ -18,7 +19,8 @@ const services: any[] = [
 	EventsService,
 	FilePathService,
 	GeolocationService,
-	TransformService
+	TransformService,
+	EchartsLayerService
 ];
 
 @NgModule({

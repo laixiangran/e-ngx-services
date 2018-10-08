@@ -1,62 +1,64 @@
 {
-	"name": "e-ngx-services",
-	"version": "5.0.0",
-	"description": "基于Angular的一些常用的服务",
-	"keywords": [
-		"angular",
-		"laixiangran"
-	],
-	"homepage": "https://github.com/laixiangran/e-ngx-services#readme",
-	"repository": {
-		"type": "git",
-		"url": "https://github.com/laixiangran/e-ngx-services.git"
-	},
-	"author": {
-		"name": "赖祥燃",
-		"email": "laixiangran@163.com",
-		"bolg": "http://www.cnblogs.com/laixiangran",
-		"homepage": "http://www.laixiangran.cn"
-	},
-	"license": "MIT",
-	"bugs": {
-		"url": "https://github.com/laixiangran/e-ngx-services/issues"
-	},
-	"scripts": {
-		"release": "ngc && npm publish",
-		"start": "ng serve -o",
-		"build-test": "ng build --prod --named-chunks --env=test --base-href /",
-		"build-prod": "ng build --prod --named-chunks --env=prod --base-href /",
-		"lint": "ng lint"
-	},
-	"module": "dist/index.js",
-	"typings": "dist/index.d.ts",
-	"dependencies": {},
-	"devDependencies": {
-		"@angular/core": "^5.0.0",
-		"@angular/common": "^5.0.0",
-		"@angular/compiler": "^5.0.0",
-		"@angular/forms": "^5.0.0",
-		"@angular/http": "^5.0.0",
-		"@angular/platform-browser": "^5.0.0",
-		"@angular/platform-browser-dynamic": "^5.0.0",
-		"@angular/router": "^5.0.0",
-		"@angular/compiler-cli": "^5.0.0",
-		"@angular/animations": "^5.0.0",
-		"@angular/cli": "^1.5.0",
-		"rxjs": "^5.5.0",
-		"zone.js": "^0.8.14",
-		"codelyzer": "^4.0.1",
-		"stylelint": "^8.2.0",
-		"stylelint-scss": "^2.1.0",
-		"ts-node": "^3.2.0",
-		"tslint": "^5.7.0",
-		"typescript": "2.4.2",
-		"classlist.js": "^1.1.20150312",
-		"core-js": "^2.4.1",
-		"intl": "^1.2.5",
-		"ts-md5": "^1.2.0",
-		"web-animations-js": "^2.2.5",
-		"@angularclass/hmr": "^2.1.3",
-		"@types/node": "^6.0.42"
-	}
+  "name": "e-ngx-services",
+  "version": "5.0.1",
+  "description": "基于Angular的一些常用的服务",
+  "keywords": [
+    "angular",
+    "laixiangran"
+  ],
+  "homepage": "https://github.com/laixiangran/e-ngx-services#readme",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/laixiangran/e-ngx-services.git"
+  },
+  "author": {
+    "name": "赖祥燃",
+    "email": "laixiangran@163.com",
+    "bolg": "http://www.cnblogs.com/laixiangran",
+    "homepage": "http://www.laixiangran.cn"
+  },
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/laixiangran/e-ngx-services/issues"
+  },
+  "scripts": {
+    "release": "ngc && npm publish",
+    "start": "ng serve -o",
+    "build-test": "ng build --prod --named-chunks --env=test --base-href /",
+    "build-prod": "ng build --prod --named-chunks --env=prod --base-href /",
+    "lint": "ng lint"
+  },
+  "module": "dist/index.js",
+  "typings": "dist/index.d.ts",
+  "dependencies": {
+    "echarts": "^4.2.0-rc.1"
+  },
+  "devDependencies": {
+    "@angular/core": "^5.0.0",
+    "@angular/common": "^5.0.0",
+    "@angular/compiler": "^5.0.0",
+    "@angular/forms": "^5.0.0",
+    "@angular/http": "^5.0.0",
+    "@angular/platform-browser": "^5.0.0",
+    "@angular/platform-browser-dynamic": "^5.0.0",
+    "@angular/router": "^5.0.0",
+    "@angular/compiler-cli": "^5.0.0",
+    "@angular/animations": "^5.0.0",
+    "@angular/cli": "^1.5.0",
+    "rxjs": "^5.5.0",
+    "zone.js": "^0.8.14",
+    "codelyzer": "^4.0.1",
+    "stylelint": "^8.2.0",
+    "stylelint-scss": "^2.1.0",
+    "ts-node": "^3.2.0",
+    "tslint": "^5.7.0",
+    "typescript": "2.4.2",
+    "classlist.js": "^1.1.20150312",
+    "core-js": "^2.4.1",
+    "intl": "^1.2.5",
+    "ts-md5": "^1.2.0",
+    "web-animations-js": "^2.2.5",
+    "@angularclass/hmr": "^2.1.3",
+    "@types/node": "^6.0.42"
+  }
 }
