@@ -1,3 +1,9 @@
+# 5.0.2（2018-11-12）
+
+- 新增 file-operation.service 来替代 filepath.service
+
+- 废弃 filepath.service
+
 # 5.0.1（2018-10-08）
 
 - 新增 echarts-layer.service

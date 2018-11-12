@@ -1,23 +1,170 @@
 /**
  * Created by laixiangran on 2017/8/29.
  * homepage：http://www.laixiangran.cn.
- * 文件路径操作服务
+ * 文件操作服务
  */
 
 import { Injectable } from '@angular/core';
 
 export interface FilePathInfo {
-	path: string, // 文件路径
-	name: string, // 文件名称
-	extension: string, // 文件扩展名
-	mimeType: string // 文件mimeType
+
+	/**
+	 * 文件完整路径
+	 */
+	filePath?: string;
+
+	/**
+	 * 文件部分路径（除去文件名）
+	 */
+	partPath?: string;
+
+	/**
+	 * 文件名称
+	 */
+	fileName?: string;
+
+	/**
+	 * 文件扩展名
+	 */
+	extension?: string;
+
+	/**
+	 * 文件mimeType
+	 */
+	mimeType?: string;
+}
+
+export interface FileUploadOptions {
+
+	/**
+	 * 表单元素的名称。默认值为 'files'
+	 */
+	fileKey?: string;
+
+	/**
+	 * 保存到服务器的文件名称。默认值为 'image.jpg'
+	 */
+	fileName?: string;
+
+	/**
+	 * HTTP 请求方法，PUT 或者 POST。默认值为 'POST'
+	 */
+	httpMethod?: string;
+
+	/**
+	 * 要上传的数据的mime类型。默认值为 'image/jpeg'
+	 */
+	mimeType?: string;
+
+	/**
+	 * 传输的其它参数
+	 */
+	params?: {
+		[s: string]: any;
+	};
+
+	/**
+	 * 上传过程函数
+	 */
+	onProgress?: Function;
+}
+
+export interface FileUploadResult {
+
+	/**
+	 * 请求响应代码
+	 */
+	responseCode?: number;
+
+	/**
+	 * 请求响应内容
+	 */
+	response?: any;
+}
+
+export interface FileUploadError {
+
+	/**
+	 * 自定义错误代码。0：取消，1：失败
+	 */
+	code?: number;
+
+	/**
+	 * 请求响应内容
+	 */
+	response?: any;
 }
 
 /**
- * @deprecated 使用 FileOperationService 替代
+ * 文件操作对象
  */
+export class FileOperationObject {
+	private xhrInstance: XMLHttpRequest;
+	private defaultUploadOptons: FileUploadOptions;
+
+	constructor() {
+		this.xhrInstance = new XMLHttpRequest();
+		this.defaultUploadOptons = {
+			fileKey: 'files',
+			fileName: 'image.jpg',
+			httpMethod: 'POST',
+			mimeType: 'image/jpeg'
+		};
+	}
+
+	/**
+	 * 文件上传
+	 * @param {ArrayBuffer | ArrayBufferView | Blob | string} file 文件数据，其中 string 为 DOMString
+	 * @param {string} serverUrl 服务路径
+	 * @param {FileUploadOptions} options 配置参数
+	 * @returns {Promise<any>}
+	 */
+	upload(file: ArrayBuffer | ArrayBufferView | Blob | string, serverUrl: string, options: FileUploadOptions): Promise<any> {
+		return new Promise((resolve, reject) => {
+			const result: FileUploadResult = {};
+			const error: FileUploadError = {};
+			options = Object.assign(this.defaultUploadOptons, options);
+			this.xhrInstance.onreadystatechange = () => {
+				result.responseCode = this.xhrInstance.status;
+				error.response = result.response = this.xhrInstance.response ? JSON.parse(this.xhrInstance.response) : {};
+				if (this.xhrInstance.readyState === 4) {
+					if (this.xhrInstance.status >= 200 && this.xhrInstance.status < 300 || this.xhrInstance.status === 304) {
+						resolve(result);
+					} else {
+						error.code = 1;
+						reject(error);
+					}
+				} else if (this.xhrInstance.readyState === 0 && this.xhrInstance.status === 0) { // 判断请求是否取消（有待完全证明）
+					error.code = 0;
+					reject(error);
+				}
+			};
+			this.xhrInstance.upload.onprogress = (evt: ProgressEvent) => {
+				options.onProgress(evt);
+			};
+			const data = new FormData();
+			const blob = new Blob([file], {type: options.mimeType});
+			data.set(options.fileKey, blob, options.fileName);
+			for (const p in options.params) {
+				if (options.params.hasOwnProperty(p)) {
+					data.set(p, options.params[p]);
+				}
+			}
+			this.xhrInstance.open(options.httpMethod, serverUrl, true);
+			this.xhrInstance.send(data);
+		});
+	}
+
+	/**
+	 * 取消请求
+	 */
+	abort(): void {
+		this.xhrInstance.abort();
+	}
+}
+
 @Injectable()
-export class FilePathService {
+export class FileOperationService {
 	private allMimeType: any = {
 		'ez': 'application/andrew-inset',
 		'aw': 'application/applixware',
@@ -1007,18 +1154,27 @@ export class FilePathService {
 	}
 
 	/**
+	 * 创建一个新的 FileOperationObject
+	 * @returns {FileOperationObject}
+	 */
+	create(): FileOperationObject {
+		return new FileOperationObject();
+	}
+
+	/**
 	 * 根据文件路径分析文件名、扩展名、mimeType
 	 * @param {string} filePath 文件完整路径
 	 * @returns
 	 */
 	resolveFilePath(filePath: string): FilePathInfo {
-		const path: string = filePath,
-			pathSplit: string[] = path.split('/'),
+		const pathSplit: string[] = filePath.split('/'),
 			name: string = pathSplit[pathSplit.length - 1],
+			partPath: string = filePath.replace('/' + name, ''),
 			extension: string = name.split('.')[name.split('.').length - 1];
 		return {
-			path: path,
-			name: name,
+			filePath: filePath,
+			partPath: partPath,
+			fileName: name,
 			extension: extension,
 			mimeType: this.getMimeType(extension)
 		};
@@ -1033,4 +1189,3 @@ export class FilePathService {
 		return this.allMimeType[extension];
 	}
 }
-

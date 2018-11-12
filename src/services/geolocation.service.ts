@@ -6,9 +6,9 @@
  * 安装方法：cordova plugin add https://github.com/laixiangran/cordova-plugin-baidu-geolocation --variable API_KEY=百度分配的AK --save
  */
 
-import {Injectable} from '@angular/core';
-import {Observable} from 'rxjs/Observable';
-import {Subscriber} from 'rxjs/Subscriber';
+import { Injectable } from '@angular/core';
+import { Observable } from 'rxjs/Observable';
+import { Subscriber } from 'rxjs/Subscriber';
 
 /**
  * 定位返回的扩展信息

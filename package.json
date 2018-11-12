@@ -1,6 +1,6 @@
 {
   "name": "e-ngx-services",
-  "version": "5.0.1",
+  "version": "5.0.2",
   "description": "基于Angular的一些常用的服务",
   "keywords": [
     "angular",
@@ -24,8 +24,8 @@
   "scripts": {
     "release": "ngc && npm publish",
     "start": "ng serve -o",
-    "build-test": "ng build --prod --named-chunks --env=test --base-href /",
-    "build-prod": "ng build --prod --named-chunks --env=prod --base-href /",
+    "test": "ng build --prod --named-chunks --env=test --base-href /",
+    "prod": "ng build --prod --named-chunks --env=prod --base-href /",
     "lint": "ng lint"
   },
   "module": "dist/index.js",

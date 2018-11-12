@@ -71,13 +71,41 @@
 
 - `publish(topic: string, ...args: any[]): any[]` - 通过事件主题订阅相应事件。`topic` - 发布事件的主题，`args` - 通过事件发送的数据
 
-### FilePathService 文件路径操作服务
+### FilePathService 文件路径操作服务（废弃，使用 FileOperationService 替代）
 
 #### Interface
 
-- `FilePathInfo {path: string, name: string, extension: string, mimeType: string}` - 坐标转换返回的接口对象，数据结构为{path: string, name: string, extension: string, mimeType: string}
+- `FilePathInfo {path: string, name: string, extension: string, mimeType: string}` - 文件路径对象，数据结构为{path: string, name: string, extension: string, mimeType: string}
 
 #### Method
+
+- `resolveFilePath(filePath: string): FilePathInfo` - 根据文件路径分析文件名、扩展名、mimeType。`filePath` - 文件完整路径
+
+- `getMimeType(extension: string): string` - 根据扩展名获取mimeType。`extension` - 文件扩展名
+
+### FileOperationService 文件操作服务
+
+#### Interface
+
+- `FilePathInfo {path: string, name: string, extension: string, mimeType: string}` - 文件路径对象
+
+- `FileUploadOptions {fileKey?: string, fileName?: string, httpMethod?: string, mimeType?: string, params?: {[s: string]: any;}, onProgress?: Function}` - 文件上传配置对象
+
+- `FileUploadResult {responseCode: number, response: string}` - 文件上传成功返回的结果
+
+- `FileUploadError {code: number, response: string}` - 文件上传失败返回的结果
+
+#### Class
+
+##### FileOperationObject
+
+- `upload(file: ArrayBuffer | ArrayBufferView | Blob | string, serverUrl: string, options: FileUploadOptions): Promise<any>` - 文件上传
+
+- `abort(): void` - 取消请求
+
+#### Method
+
+- `create(): FileOperationObject` - 创建一个新的 FileOperationObject
 
 - `resolveFilePath(filePath: string): FilePathInfo` - 根据文件路径分析文件名、扩展名、mimeType。`filePath` - 文件完整路径
 

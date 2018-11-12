@@ -17,7 +17,8 @@ export class TransformService {
 
 	private earthR = 6378137.0; // 地球半径
 
-	constructor() {}
+	constructor() {
+	}
 
 	/**
 	 * 是否超出中国范围
