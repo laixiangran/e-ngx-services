@@ -179,7 +179,7 @@ export class FileOperationObject {
 					}
 				}
 			};
-			this.xhrInstance.onprogress = (evt: ProgressEvent) => {
+			this.xhrInstance.upload.onprogress = (evt: ProgressEvent) => {
 				if (options.onProgress) {
 					options.onProgress(evt);
 				}
