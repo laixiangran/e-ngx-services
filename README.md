@@ -93,13 +93,21 @@
 
 - `FileUploadResult {responseCode: number, response: string}` - 文件上传成功返回的结果
 
-- `FileUploadError {code: number, response: string}` - 文件上传失败返回的结果
+- `FileUploadError {code: number, response: string}` - 文件上传失败（取消）返回的结果
+
+- `FileDownloadOptions {responseType?: XMLHttpRequestResponseType, onProgress?: Function}` - 文件下载配置对象
+
+- `FileDownloadResult {responseCode: number, response: string}` - 文件下载成功返回的结果
+
+- `FileDownloadError {code: number, response: string}` - 文件下载失败（取消）返回的结果
 
 #### Class
 
 ##### FileOperationObject
 
-- `upload(file: ArrayBuffer | ArrayBufferView | Blob | string, serverUrl: string, options: FileUploadOptions): Promise<any>` - 文件上传
+- `upload(file: ArrayBuffer | ArrayBufferView | Blob | string, serverUrl: string, options: FileUploadOptions): Promise<FileUploadResult | FileUploadError>` - 文件上传
+
+- `download(serverUrl: string, options?: FileDownloadOptions): Promise<FileDownloadResult | FileDownloadError>` - 文件下载
 
 - `abort(): void` - 取消请求
 
@@ -107,9 +115,11 @@
 
 - `create(): FileOperationObject` - 创建一个新的 FileOperationObject
 
-- `resolveFilePath(filePath: string): FilePathInfo` - 根据文件路径分析文件名、扩展名、mimeType。`filePath` - 文件完整路径
+- `resolveFilePath(filePath: string): FilePathInfo` - 根据文件完整路径分析文件名、扩展名、mimeType
 
-- `getMimeType(extension: string): string` - 根据扩展名获取mimeType。`extension` - 文件扩展名
+- `getMimeType(extension: string): string` - 根据扩展名获取mimeType
+
+- `getExtension(mimeType: string): string` - 根据mimeType获取扩展名
 
 ### GeolocationService 兼容W3C标准的定位服务
 

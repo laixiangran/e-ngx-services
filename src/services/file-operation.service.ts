@@ -95,12 +95,52 @@ export interface FileUploadError {
 	response?: any;
 }
 
+export interface FileDownloadOptions {
+
+	/**
+	 * 响应类型。默认值为 'arraybuffer'
+	 */
+	responseType?: XMLHttpRequestResponseType;
+
+	/**
+	 * 下载过程函数
+	 */
+	onProgress?: Function;
+}
+
+export interface FileDownloadResult {
+
+	/**
+	 * 请求响应代码
+	 */
+	responseCode?: number;
+
+	/**
+	 * 请求响应内容
+	 */
+	response?: any;
+}
+
+export interface FileDownloadError {
+
+	/**
+	 * 自定义错误代码。0：取消，1：失败
+	 */
+	code?: number;
+
+	/**
+	 * 请求响应内容
+	 */
+	response?: any;
+}
+
 /**
  * 文件操作对象
  */
 export class FileOperationObject {
 	private xhrInstance: XMLHttpRequest;
 	private defaultUploadOptons: FileUploadOptions;
+	private defaultDownloadOptons: FileDownloadOptions;
 
 	constructor() {
 		this.xhrInstance = new XMLHttpRequest();
@@ -109,6 +149,9 @@ export class FileOperationObject {
 			fileName: 'image.jpg',
 			httpMethod: 'POST',
 			mimeType: 'image/jpeg'
+		};
+		this.defaultDownloadOptons = {
+			responseType: 'blob'
 		};
 	}
 
@@ -119,7 +162,7 @@ export class FileOperationObject {
 	 * @param {FileUploadOptions} options 配置参数
 	 * @returns {Promise<any>}
 	 */
-	upload(file: ArrayBuffer | ArrayBufferView | Blob | string, serverUrl: string, options: FileUploadOptions): Promise<any> {
+	upload(file: ArrayBuffer | ArrayBufferView | Blob | string, serverUrl: string, options?: FileUploadOptions): Promise<FileUploadResult | FileUploadError> {
 		return new Promise((resolve, reject) => {
 			const result: FileUploadResult = {};
 			const error: FileUploadError = {};
@@ -134,13 +177,16 @@ export class FileOperationObject {
 						error.code = 1;
 						reject(error);
 					}
-				} else if (this.xhrInstance.readyState === 0 && this.xhrInstance.status === 0) { // 判断请求是否取消（有待完全证明）
-					error.code = 0;
-					reject(error);
 				}
 			};
-			this.xhrInstance.upload.onprogress = (evt: ProgressEvent) => {
-				options.onProgress(evt);
+			this.xhrInstance.onprogress = (evt: ProgressEvent) => {
+				if (options.onProgress) {
+					options.onProgress(evt);
+				}
+			};
+			this.xhrInstance.onabort = () => {
+				error.code = 0;
+				reject(error);
 			};
 			const data = new FormData();
 			const blob = new Blob([file], {type: options.mimeType});
@@ -152,6 +198,44 @@ export class FileOperationObject {
 			}
 			this.xhrInstance.open(options.httpMethod, serverUrl, true);
 			this.xhrInstance.send(data);
+		});
+	}
+
+	/**
+	 * 文件下载
+	 * @param {string} serverUrl 服务路径
+	 * @param {FileDownloadOptions} options 下载过程函数
+	 * @returns {Promise<any>}
+	 */
+	download(serverUrl: string, options?: FileDownloadOptions): Promise<FileDownloadResult | FileDownloadError> {
+		return new Promise((resolve, reject) => {
+			const result: FileDownloadResult = {};
+			const error: FileDownloadError = {};
+			options = Object.assign(this.defaultDownloadOptons, options);
+			this.xhrInstance.responseType = options.responseType;
+			this.xhrInstance.onreadystatechange = () => {
+				result.responseCode = this.xhrInstance.status;
+				error.response = result.response = this.xhrInstance.response;
+				if (this.xhrInstance.readyState === 4) {
+					if (this.xhrInstance.status >= 200 && this.xhrInstance.status < 300 || this.xhrInstance.status === 304) {
+						resolve(result);
+					} else {
+						error.code = 1;
+						reject(error);
+					}
+				}
+			};
+			this.xhrInstance.onprogress = (evt: ProgressEvent) => {
+				if (options.onProgress) {
+					options.onProgress(evt);
+				}
+			};
+			this.xhrInstance.onabort = () => {
+				error.code = 0;
+				reject(error);
+			};
+			this.xhrInstance.open('GET', serverUrl, true);
+			this.xhrInstance.send(null);
 		});
 	}
 
@@ -1187,5 +1271,22 @@ export class FileOperationService {
 	 */
 	getMimeType(extension: string): string {
 		return this.allMimeType[extension];
+	}
+
+	/**
+	 * 根据mimeType获取扩展名
+	 * @param {string} mimeType mime类型
+	 * @returns {string}
+	 */
+	getExtension(mimeType: string): string {
+		let extension: string;
+		for (const p in this.allMimeType) {
+			if (this.allMimeType.hasOwnProperty(p)) {
+				if (this.allMimeType[p] === mimeType) {
+					extension = p;
+				}
+			}
+		}
+		return extension;
 	}
 }

@@ -1,3 +1,7 @@
+# 5.0.3（2018-11-13）
+
+- file-operation.service 新增 download 方法
+
 # 5.0.2（2018-11-12）
 
 - 新增 file-operation.service 来替代 filepath.service
