@@ -5,6 +5,7 @@
  */
 
 import { Injectable } from '@angular/core';
+import { saveAs } from 'file-saver';
 
 export interface FilePathInfo {
 
@@ -98,7 +99,17 @@ export interface FileUploadError {
 export interface FileDownloadOptions {
 
 	/**
-	 * 响应类型。默认值为 'arraybuffer'
+	 * 是否保存到本地文件系统。默认值为 'false'
+	 */
+	isSavaAs?: boolean;
+
+	/**
+	 * 保存到本地的文件名称。默认值为 'image.jpg'
+	 */
+	fileName?: string;
+
+	/**
+	 * 响应类型。默认值为 'blob'
 	 */
 	responseType?: XMLHttpRequestResponseType;
 
@@ -151,6 +162,8 @@ export class FileOperationObject {
 			mimeType: 'image/jpeg'
 		};
 		this.defaultDownloadOptons = {
+			isSavaAs: false,
+			fileName: 'image.jpg',
 			responseType: 'blob'
 		};
 	}
@@ -167,26 +180,30 @@ export class FileOperationObject {
 			const result: FileUploadResult = {};
 			const error: FileUploadError = {};
 			options = Object.assign(this.defaultUploadOptons, options);
-			this.xhrInstance.onreadystatechange = () => {
+			this.xhrInstance.onload = () => {
 				result.responseCode = this.xhrInstance.status;
-				error.response = result.response = this.xhrInstance.response ? JSON.parse(this.xhrInstance.response) : {};
-				if (this.xhrInstance.readyState === 4) {
-					if (this.xhrInstance.status >= 200 && this.xhrInstance.status < 300 || this.xhrInstance.status === 304) {
-						resolve(result);
-					} else {
-						error.code = 1;
-						reject(error);
-					}
+				error.response = result.response = this.xhrInstance.response;
+				if (this.xhrInstance.status >= 200 && this.xhrInstance.status < 300 || this.xhrInstance.status === 304) {
+					resolve(result);
+				} else {
+					error.code = 1;
+					reject(error);
 				}
+			};
+			this.xhrInstance.onabort = () => {
+				error.response = this.xhrInstance.response;
+				error.code = 0;
+				reject(error);
+			};
+			this.xhrInstance.onerror = () => {
+				error.response = this.xhrInstance.response;
+				error.code = 1;
+				reject(error);
 			};
 			this.xhrInstance.upload.onprogress = (evt: ProgressEvent) => {
 				if (options.onProgress) {
 					options.onProgress(evt);
 				}
-			};
-			this.xhrInstance.onabort = () => {
-				error.code = 0;
-				reject(error);
 			};
 			const data = new FormData();
 			const blob = new Blob([file], {type: options.mimeType});
@@ -213,16 +230,17 @@ export class FileOperationObject {
 			const error: FileDownloadError = {};
 			options = Object.assign(this.defaultDownloadOptons, options);
 			this.xhrInstance.responseType = options.responseType;
-			this.xhrInstance.onreadystatechange = () => {
+			this.xhrInstance.onload = () => {
 				result.responseCode = this.xhrInstance.status;
 				error.response = result.response = this.xhrInstance.response;
-				if (this.xhrInstance.readyState === 4) {
-					if (this.xhrInstance.status >= 200 && this.xhrInstance.status < 300 || this.xhrInstance.status === 304) {
-						resolve(result);
-					} else {
-						error.code = 1;
-						reject(error);
+				if (this.xhrInstance.status >= 200 && this.xhrInstance.status < 300 || this.xhrInstance.status === 304) {
+					if (options.isSavaAs) {
+						saveAs(result.response, options.fileName);
 					}
+					resolve(result);
+				} else {
+					error.code = 1;
+					reject(error);
 				}
 			};
 			this.xhrInstance.onprogress = (evt: ProgressEvent) => {
@@ -231,11 +249,17 @@ export class FileOperationObject {
 				}
 			};
 			this.xhrInstance.onabort = () => {
+				error.response = this.xhrInstance.response;
 				error.code = 0;
 				reject(error);
 			};
+			this.xhrInstance.onerror = () => {
+				error.response = this.xhrInstance.response;
+				error.code = 1;
+				reject(error);
+			};
 			this.xhrInstance.open('GET', serverUrl, true);
-			this.xhrInstance.send(null);
+			this.xhrInstance.send();
 		});
 	}
 

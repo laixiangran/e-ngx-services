@@ -93,13 +93,13 @@
 
 - `FileUploadResult {responseCode: number, response: string}` - 文件上传成功返回的结果
 
-- `FileUploadError {code: number, response: string}` - 文件上传失败（取消）返回的结果
+- `FileUploadError {code: number, response: string}` - 文件上传失败（取消）返回的结果。code：0：取消，1：失败
 
-- `FileDownloadOptions {responseType?: XMLHttpRequestResponseType, onProgress?: Function}` - 文件下载配置对象
+- `FileDownloadOptions {isSavaAs?: boolean, fileName?: string, responseType?: XMLHttpRequestResponseType, onProgress?: Function}` - 文件下载配置对象
 
 - `FileDownloadResult {responseCode: number, response: string}` - 文件下载成功返回的结果
 
-- `FileDownloadError {code: number, response: string}` - 文件下载失败（取消）返回的结果
+- `FileDownloadError {code: number, response: string}` - 文件下载失败（取消）返回的结果。code：0：取消，1：失败
 
 #### Class
 

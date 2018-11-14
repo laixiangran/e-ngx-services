@@ -20,10 +20,15 @@ export class AppComponent {
 		}).subscribe((data: any) => {
 			console.log(data.pois);
 		});
+	}
+
+	download() {
 
 		// 测试 fileOperationService
 		const fileOperationObject: FileOperationObject = this.fileOperationService.create();
 		fileOperationObject.download('http://localhost:4200/assets/styles/splash.css', {
+			isSavaAs: true,
+			fileName: 'splash.css',
 			onProgress: (evt: ProgressEvent) => {
 				console.log(evt);
 			}

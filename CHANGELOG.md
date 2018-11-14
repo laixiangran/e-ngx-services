@@ -1,3 +1,9 @@
+# 5.1.0（2018-11-14）
+
+- 优化 upload 及 download 方法中的请求事件代码
+
+- download 方法实现保存到本地文件系统（依赖 [FileSaver.js](https://github.com/eligrey/FileSaver.js)）
+
 # 5.0.3（2018-11-13）
 
 - file-operation.service 新增 download 方法
