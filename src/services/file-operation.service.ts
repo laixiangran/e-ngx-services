@@ -235,7 +235,7 @@ export class FileOperationObject {
 				error.response = result.response = this.xhrInstance.response;
 				if (this.xhrInstance.status >= 200 && this.xhrInstance.status < 300 || this.xhrInstance.status === 304) {
 					if (options.isSavaAs) {
-						saveAs(result.response, options.fileName);
+						saveAs(new Blob[result.response], options.fileName);
 					}
 					resolve(result);
 				} else {
