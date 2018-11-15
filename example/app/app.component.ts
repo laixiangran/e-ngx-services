@@ -1,6 +1,5 @@
 import { Component } from '@angular/core';
-import { AMapWebService, FileDownloadError, FileDownloadResult, FileOperationObject } from '../../src';
-import { FileOperationService } from '../../src/services/file-operation.service';
+import { AMapWebService, FileDownloadError, FileDownloadResult, FileOperationObject, FileOperationService } from '../../src';
 
 @Component({
 	selector: 'app-root',
@@ -8,10 +7,13 @@ import { FileOperationService } from '../../src/services/file-operation.service'
 	styleUrls: ['./app.component.scss']
 })
 export class AppComponent {
+	fileOperationObject: FileOperationObject;
 
-	constructor(public aMapWebService: AMapWebService, public fileOperationService: FileOperationService) {
+	constructor(public aMapWebService: AMapWebService,
+				public fileOperationService: FileOperationService) {
+	}
 
-		// 测试 aMapWebService
+	poiSearch() {
 		this.aMapWebService.poiSearch({
 			keywords: '肯德基',
 			city: '北京市',
@@ -23,19 +25,21 @@ export class AppComponent {
 	}
 
 	download() {
-
-		// 测试 fileOperationService
-		const fileOperationObject: FileOperationObject = this.fileOperationService.create();
-		fileOperationObject.download('http://localhost:4200/assets/styles/splash.css', {
+		this.fileOperationObject = this.fileOperationService.create();
+		this.fileOperationObject.download('http://localhost:4200/assets/styles/splash.css', {
 			isSavaAs: true,
 			fileName: 'splash.css',
 			onProgress: (evt: ProgressEvent) => {
-				console.log(evt);
+				console.log('download', evt.loaded / evt.total * 100);
 			}
 		}).then((result: FileDownloadResult) => {
 			console.log(result);
 		}, (error: FileDownloadError) => {
 			console.log(error);
 		});
+	}
+
+	abort() {
+		this.fileOperationObject.abort();
 	}
 }
