@@ -104,4 +104,18 @@ export class GeolocationService {
 	clearWatch(): void {
 		navigator.geolocation.clearWatch(this.watchId);
 	}
+
+	/**
+	 * 开启前台定位服务
+	 */
+	openFrontLocationService(): void {
+		navigator.geolocation['openFrontLocationService'](this.watchId);
+	}
+
+	/**
+	 * 关闭前台定位服务
+	 */
+	closeFrontLocationService(): void {
+		navigator.geolocation['closeFrontLocationService'](this.watchId);
+	}
 }
