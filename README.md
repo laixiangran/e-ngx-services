@@ -137,7 +137,11 @@
 
 - `watchPosition(positionOptions?: PositionOptions): Observable<PositionResult>` - 持续追踪位置变更。`positionOptions` - 参考W3C标准中的PositionOptions对象
 
-- `clearWatch(): void` - 清除位置追踪。
+- `clearWatch(): void` - 清除位置追踪
+	
+- `openFrontLocationService(): void` - 开启前台定位服务（适配 android 8.0 以上限制后台定位功能）
+
+- `closeFrontLocationService(): void` - 关闭前台定位服务
 
 ### TransformService 地理坐标(WGS-84)、火星坐标(GCJ-02)互转服务
 

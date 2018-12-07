@@ -70,9 +70,10 @@ export class GeolocationService {
 	/**
 	 * 持续追踪位置变更
 	 * @param {PositionOptions} positionOptions
-	 * @returns {Observable<any>}
+	 * @param {boolean} isBackgroundMode
+	 * @returns {Observable<PositionResult>}
 	 */
-	watchPosition(positionOptions?: PositionOptions): Observable<PositionResult> {
+	watchPosition(positionOptions?: PositionOptions, isBackgroundMode: boolean = false): Observable<PositionResult> {
 		this.clearWatch();
 		return new Observable<PositionResult>((subscriber: Subscriber<PositionResult>) => {
 			this.watchId = navigator.geolocation.watchPosition((...args: any[]) => {
@@ -95,6 +96,12 @@ export class GeolocationService {
 				});
 				subscriber.complete();
 			}, positionOptions);
+
+			if (isBackgroundMode) {
+				this.openFrontLocationService();
+			} else {
+				this.closeFrontLocationService();
+			}
 		});
 	}
 
@@ -103,6 +110,8 @@ export class GeolocationService {
 	 */
 	clearWatch(): void {
 		navigator.geolocation.clearWatch(this.watchId);
+		this.closeFrontLocationService();
+		this.watchId = null;
 	}
 
 	/**
