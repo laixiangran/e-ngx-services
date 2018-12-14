@@ -80,6 +80,7 @@ export class GeolocationService {
 				const position: Position = args[0],
 					extra: any = args[1],
 					location: Location = {
+						watchId: this.watchId,
 						position: position,
 						extra: extra
 					};
